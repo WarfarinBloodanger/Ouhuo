@@ -357,7 +357,29 @@ const Ks=8;
         }
         box.style[transitionDuration] = '150ms';
     }
-
+//fnasidfnasdf
+//fnasidfnasdf
+//fnasidfnasdf
+//fnasidfnasdf
+//fnasidfnasdf
+//fnasidfnasdf
+//fnasidfnasdf
+//fnasidfnasdf
+//fnasidfnasdf
+//fnasidfnasdf
+//fnasidfnasdf
+//fnasidfnasdf
+//fnasidfnasdf
+//fnasidfnasdf
+//fnasidfnasdf
+//fnasidfnasdf
+//fnasidfnasdf
+//fnasidfnasdf
+//fnasidfnasdf
+//fnasidfnasdf
+//fnasidfnasdf
+//fnasidfnasdf
+//fnasidfnasdf
     function gameLayerMoveNextRow() {
         for (let i = 0; i < GameLayer.length; i++) {
             let g = GameLayer[i];
@@ -372,7 +394,7 @@ const Ks=8;
 	function inc(a,x){
 		for(let i=0;i<Ks;i++){
 			if(a==i&&x>blockSize*(i-1)&&x<blockSize*i){
-				return true
+				return true;
 			}
 		}
 		return false
