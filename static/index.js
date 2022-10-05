@@ -371,7 +371,7 @@ const Ks=8;
     }
 	function inc(a,x){
 		for(var i=0;i<Ks;i++){
-			if(a==i&&x>blockSize*(i-1)&&x<blockSize*i)
+			if(a==i&&x>blockSize*(i-1)&&x<blockSize*i)return true
 		}
 		return false
 	}
