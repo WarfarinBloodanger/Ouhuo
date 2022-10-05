@@ -370,8 +370,10 @@ const Ks=8;
         }
     }
 	function inc(a,x){
-		for(var i=0;i<Ks;i++){
-			if(a==i&&x>blockSize*(i-1)&&x<blockSize*i)return true
+		for(let i=0;i<Ks;i++){
+			if(a==i&&x>blockSize*(i-1)&&x<blockSize*i){
+				return true
+			}
 		}
 		return false
 	}
@@ -556,7 +558,7 @@ const Ks=8;
             keyboard = keyboard.toString().toLowerCase();
             $("#keyboard").val(keyboard);
             map = {}
-            for(var i=0;i<Ks;i++)map[keyboard.charAt(i)] = i+1;
+            for(let i=0;i<Ks;i++)map[keyboard.charAt(i)] = i+1;
         }
         if (cookie('gameTime')) {
             $('#gameTime').val(cookie('gameTime'));
