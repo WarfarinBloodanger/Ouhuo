@@ -1,5 +1,5 @@
 const MODE_NORMAL = 1, MODE_ENDLESS = 2, MODE_PRACTICE = 3;
-
+const Ks=4;
 (function(w) {
     const DEFAULT_I18N_RESOURCE = 'en';
 
@@ -45,7 +45,7 @@ const MODE_NORMAL = 1, MODE_ENDLESS = 2, MODE_PRACTICE = 3;
         (isDesktop ? '#welcome,#GameTimeLayer,#GameLayerBG,#GameScoreLayer.SHADE{position: absolute;}' :
             '#welcome,#GameTimeLayer,#GameLayerBG,#GameScoreLayer.SHADE{position:fixed;}@media screen and (orientation:landscape) {#landscape {display: box; display: -webkit-box; display: -moz-box; display: -ms-flexbox;}}') +
         '</style>');
-    let map = {'d': 1, 'f': 2, 'j': 3, 'k': 4};
+    let map = {'d': 1, 'f': 2, 'j': 3, 'k': Ks};
     if (isDesktop) {
         document.write('<div id="gameBody">');
         document.onkeydown = function (e) {
@@ -145,8 +145,8 @@ const MODE_NORMAL = 1, MODE_ENDLESS = 2, MODE_PRACTICE = 3;
             for (let j = 0; j < box.children.length; j++) {
                 let r = box.children[j],
                     rstyle = r.style;
-                rstyle.left = (j % 4) * blockSize + 'px';
-                rstyle.bottom = Math.floor(j / 4) * blockSize + 'px';
+                rstyle.left = (j % Ks) * blockSize + 'px';
+                rstyle.bottom = Math.floor(j / Ks) * blockSize + 'px';
                 rstyle.width = blockSize + 'px';
                 rstyle.height = blockSize + 'px';
             }
@@ -162,12 +162,12 @@ const MODE_NORMAL = 1, MODE_ENDLESS = 2, MODE_PRACTICE = 3;
         let y = ((_gameBBListIndex) % 10) * blockSize;
         f.y = y;
         f.style[transform] = 'translate3D(0,' + f.y + 'px,0)';
-        a.y = -blockSize * Math.floor(f.children.length / 4) + y;
+        a.y = -blockSize * Math.floor(f.children.length / Ks) + y;
         a.style[transform] = 'translate3D(0,' + a.y + 'px,0)';
     }
 
     function countBlockSize() {
-        blockSize = body.offsetWidth / 4;
+        blockSize = body.offsetWidth / Ks;
         body.style.height = window.innerHeight + 'px';
         GameLayerBG.style.height = window.innerHeight + 'px';
         touchArea[0] = window.innerHeight;
@@ -321,22 +321,22 @@ const MODE_NORMAL = 1, MODE_ENDLESS = 2, MODE_PRACTICE = 3;
         _clearttClsReg = / t{1,2}\d+| bad/;
 
     function refreshGameLayer(box, loop, offset) {
-        let i = Math.floor(Math.random() * 1000) % 4 + (loop ? 0 : 4);
+        let i = Math.floor(Math.random() * 1000) % Ks + (loop ? 0 : Ks);
         for (let j = 0; j < box.children.length; j++) {
             let r = box.children[j], rstyle = r.style;
-            rstyle.left = (j % 4) * blockSize + 'px';
-            rstyle.bottom = Math.floor(j / 4) * blockSize + 'px';
+            rstyle.left = (j % Ks) * blockSize + 'px';
+            rstyle.bottom = Math.floor(j / Ks) * blockSize + 'px';
             rstyle.width = blockSize + 'px';
             rstyle.height = blockSize + 'px';
             r.className = r.className.replace(_clearttClsReg, '');
             if (i === j) {
                 _gameBBList.push({
-                    cell: i % 4,
+                    cell: i % Ks,
                     id: r.id
                 });
                 r.className += ' t' + (Math.floor(Math.random() * 1000) % 5 + 1);
                 r.notEmpty = true;
-                i = (Math.floor(j / 4) + 1) * 4 + Math.floor(Math.random() * 1000) % 4;
+                i = (Math.floor(j / Ks) + 1) * Ks + Math.floor(Math.random() * 1000) % Ks;
             } else {
                 r.notEmpty = false;
             }
@@ -344,7 +344,7 @@ const MODE_NORMAL = 1, MODE_ENDLESS = 2, MODE_PRACTICE = 3;
         if (loop) {
             box.style.webkitTransitionDuration = '0ms';
             box.style.display = 'none';
-            box.y = -blockSize * (Math.floor(box.children.length / 4) + (offset || 0)) * loop;
+            box.y = -blockSize * (Math.floor(box.children.length / Ks) + (offset || 0)) * loop;
             setTimeout(function () {
                 box.style[transform] = 'translate3D(0,' + box.y + 'px,0)';
                 setTimeout(function () {
@@ -362,7 +362,7 @@ const MODE_NORMAL = 1, MODE_ENDLESS = 2, MODE_PRACTICE = 3;
         for (let i = 0; i < GameLayer.length; i++) {
             let g = GameLayer[i];
             g.y += blockSize;
-            if (g.y > blockSize * (Math.floor(g.children.length / 4))) {
+            if (g.y > blockSize * (Math.floor(g.children.length / Ks))) {
                 refreshGameLayer(g, 1, -1);
             } else {
                 g.style[transform] = 'translate3D(0,' + g.y + 'px,0)';
@@ -419,8 +419,8 @@ const MODE_NORMAL = 1, MODE_ENDLESS = 2, MODE_PRACTICE = 3;
             let id = 'GameLayer' + i;
             html += '<div id="' + id + '" class="GameLayer">';
             for (let j = 0; j < 10; j++) {
-                for (let k = 0; k < 4; k++) {
-                    html += '<div id="' + id + '-' + (k + j * 4) + '" num="' + (k + j * 4) + '" class="block' + (k ? ' bl' : '') +
+                for (let k = 0; k < Ks; k++) {
+                    html += '<div id="' + id + '-' + (k + j * Ks) + '" num="' + (k + j * Ks) + '" class="block' + (k ? ' bl' : '') +
                         '"></div>';
                 }
             }
@@ -505,7 +505,7 @@ const MODE_NORMAL = 1, MODE_ENDLESS = 2, MODE_PRACTICE = 3;
         if (cps <= 5) return I18N['text-level-1'];
         if (cps <= 8) return I18N['text-level-2'];
         if (cps <= 10)  return I18N['text-level-3'];
-        if (cps <= 15) return I18N['text-level-4'];
+        if (cps <= 15) return I18N['text-level-Ks'];
         return I18N['text-level-5'];
     }
 
@@ -525,7 +525,7 @@ const MODE_NORMAL = 1, MODE_ENDLESS = 2, MODE_PRACTICE = 3;
                     date.setTime(date.getTime() + 864e5 * time), time = date.toGMTString();
                 }
                 return document.cookie = name + "=" + escape(toStr(value)) + (time ? "; expires=" + time + (arguments[3] ?
-                    "; domain=" + arguments[3] + (arguments[4] ? "; path=" + arguments[4] + (arguments[5] ? "; secure" : "") : "") :
+                    "; domain=" + arguments[3] + (arguments[Ks] ? "; path=" + arguments[Ks] + (arguments[5] ? "; secure" : "") : "") :
                     "") : ""), !0;
             }
             return value = document.cookie.match("(?:^|;)\\s*" + name.replace(/([-.*+?^${}()|[\]\/\\])/g, "\\$1") + "=([^;]*)"),
@@ -552,10 +552,7 @@ const MODE_NORMAL = 1, MODE_ENDLESS = 2, MODE_PRACTICE = 3;
             keyboard = keyboard.toString().toLowerCase();
             $("#keyboard").val(keyboard);
             map = {}
-            map[keyboard.charAt(0)] = 1;
-            map[keyboard.charAt(1)] = 2;
-            map[keyboard.charAt(2)] = 3;
-            map[keyboard.charAt(3)] = 4;
+            for(var i=0;i<Ks;i++)map[keyboard.charAt(i)] = i+1;
         }
         if (cookie('gameTime')) {
             $('#gameTime').val(cookie('gameTime'));
