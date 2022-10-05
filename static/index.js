@@ -1,5 +1,5 @@
 const MODE_NORMAL = 1, MODE_ENDLESS = 2, MODE_PRACTICE = 3;
-const Ks=4;
+const Ks=8;
 (function(w) {
     const DEFAULT_I18N_RESOURCE = 'en';
 
@@ -45,7 +45,7 @@ const Ks=4;
         (isDesktop ? '#welcome,#GameTimeLayer,#GameLayerBG,#GameScoreLayer.SHADE{position: absolute;}' :
             '#welcome,#GameTimeLayer,#GameLayerBG,#GameScoreLayer.SHADE{position:fixed;}@media screen and (orientation:landscape) {#landscape {display: box; display: -webkit-box; display: -moz-box; display: -ms-flexbox;}}') +
         '</style>');
-    let map = {'d': 1, 'f': 2, 'j': 3, 'k': Ks};
+    let map = {'d': 1, 'f': 2, 'j': 3, 'k': 4};
     if (isDesktop) {
         document.write('<div id="gameBody">');
         document.onkeydown = function (e) {
@@ -369,7 +369,12 @@ const Ks=4;
             }
         }
     }
-
+	function inc(a,x){
+		for(var i=0;i<Ks;i++){
+			if(a==i&&x>blockSize*(i-1)&&x<blockSize*i)
+		}
+		return false
+	}
     function gameTapEvent(e) {
         if (_gameOver) {
             return false;
@@ -381,8 +386,7 @@ const Ks=4;
         if (y > touchArea[0] || y < touchArea[1]) {
             return false;
         }
-        if ((p.id === tar.id && tar.notEmpty) || (p.cell === 0 && x < blockSize) || (p.cell === 1 && x > blockSize && x < 2 *
-            blockSize) || (p.cell === 2 && x > 2 * blockSize && x < 3 * blockSize) || (p.cell === 3 && x > 3 * blockSize)) {
+        if ((p.id === tar.id && tar.notEmpty) || inc(p.cell,x)) {
             if (!_gameStart) {
                 gameStart();
             }
